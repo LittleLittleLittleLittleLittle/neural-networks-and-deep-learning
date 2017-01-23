@@ -73,6 +73,7 @@ class Network(object):
         is the learning rate."""
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
+        # i = 0
         for x, y in mini_batch:
             delta_nabla_b, delta_nabla_w = self.backprop(x, y)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
@@ -139,3 +140,10 @@ def sigmoid(z):
 def sigmoid_prime(z):
     """Derivative of the sigmoid function."""
     return sigmoid(z)*(1-sigmoid(z))
+
+
+import mnist_loader
+training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
+
+net = Network([784, 10])
+net.SGD(training_data, 30, 10, 3.0, test_data=test_data)
